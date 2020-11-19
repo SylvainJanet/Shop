@@ -13,7 +13,7 @@ namespace Shop.DataAccess.InMemory
         ObjectCache cache = MemoryCache.Default;
         List<Product> products;
 
-        public ProductRepository(ObjectCache cache)
+        public ProductRepository()
         {
             products = cache["products"] as List<Product>;
             if (products==null)
@@ -34,10 +34,14 @@ namespace Shop.DataAccess.InMemory
 
         public void Update(Product p)
         {
-            Product dbproduct = products.SingleOrDefault(product => p.Id == product.Id);
+            Product dbproduct = products.Find(product => p.Id == product.Id);
             if (dbproduct!=null)
             {
-                dbproduct = p;
+                dbproduct.Description = p.Description;
+                dbproduct.Category = p.Category;
+                dbproduct.Image = p.Image;
+                dbproduct.Name = p.Name;
+                dbproduct.Price = p.Price;
             }
             else
             {
