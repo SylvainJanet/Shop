@@ -14,6 +14,8 @@ namespace Shop.Core.Models
         [StringLength(20)]
         public string Name { get; set; }
         public string Description { get; set; }
+        [DisplayFormat(DataFormatString = "{0:#.##}")]
+        [Range(0,500)]
         public double Price { get; set; }
         public string Category { get; set; }
         public string Image { get; set; }
