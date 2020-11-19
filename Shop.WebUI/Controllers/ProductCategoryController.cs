@@ -8,39 +8,39 @@ using System.Web.Mvc;
 
 namespace Shop.WebUI.Controllers
 {
-    public class ProductManagerController : Controller
+    public class ProductCategoryController : Controller
     {
-        ProductRepository context;
+        ProductCategoryRepository context;
 
-        public ProductManagerController()
+        public ProductCategoryController()
         {
-            context = new ProductRepository();
+            context = new ProductCategoryRepository();
         }
 
         // GET: ProductManager
         public ActionResult Index()
         {
-            List<Product> products = context.Collection().ToList();
-            return View(products);
+            List<ProductCategory> productscat = context.Collection().ToList();
+            return View(productscat);
         }
 
         public ActionResult Create()
         {
-            Product p = new Product();
-            return View(p);
+            ProductCategory pcat = new ProductCategory();
+            return View(pcat);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product p)
+        public ActionResult Create(ProductCategory pcat)
         {
             if (!ModelState.IsValid)
             {
-                return View(p);
+                return View(pcat);
             }
             else
             {
-                context.Insert(p);
+                context.Insert(pcat);
                 context.Commit();
                 return RedirectToAction("Index");
             }
@@ -50,14 +50,14 @@ namespace Shop.WebUI.Controllers
         {
             try
             {
-                Product p = context.FindById(id);
-                if (p == null)
+                ProductCategory pcat = context.FindById(id);
+                if (pcat == null)
                 {
                     return HttpNotFound();
                 }
                 else
                 {
-                    return View(p);
+                    return View(pcat);
                 }
             }
             catch (Exception)
@@ -69,13 +69,13 @@ namespace Shop.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product p)
+        public ActionResult Edit(ProductCategory pcat)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    context.Update(p);
+                    context.Update(pcat);
                     context.Commit();
                     return RedirectToAction("Index");
                 }
@@ -87,7 +87,7 @@ namespace Shop.WebUI.Controllers
             }
             else
             {
-                return View(p.Id);
+                return View(pcat.Id);
             }
 
         }
@@ -96,14 +96,14 @@ namespace Shop.WebUI.Controllers
         {
             try
             {
-                Product p = context.FindById(id);
-                if (p == null)
+                ProductCategory pcat = context.FindById(id);
+                if (pcat == null)
                 {
                     return HttpNotFound();
                 }
                 else
                 {
-                    return View(p);
+                    return View(pcat);
                 }
             }
             catch (Exception)
