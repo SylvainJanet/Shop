@@ -1,4 +1,5 @@
 ﻿using Shop.Core.Models;
+using Shop.Core.ViewModels;
 using Shop.DataAccess.InMemory;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace Shop.WebUI.Controllers
     public class ProductManagerController : Controller
     {
         ProductRepository context;
+        ProductCategoryRepository contextCategory;
 
         public ProductManagerController()
         {
             context = new ProductRepository();
+            contextCategory = new ProductCategoryRepository();
         }
 
         // GET: ProductManager
@@ -26,21 +29,23 @@ namespace Shop.WebUI.Controllers
 
         public ActionResult Create()
         {
-            Product p = new Product();
-            return View(p);
+            ProductManagerViewModel viewModel = new ProductManagerViewModel();
+            viewModel.Product = new Product();
+            viewModel.ProductCategories = contextCategory.Collection().ToList();
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product p)
+        public ActionResult Create(ProductManagerViewModel pvm)
         {
             if (!ModelState.IsValid)
             {
-                return View(p);
+                return View(pvm);
             }
             else
             {
-                context.Insert(p);
+                context.Insert(pvm.Product);
                 context.Commit();
                 return RedirectToAction("Index");
             }
@@ -50,14 +55,16 @@ namespace Shop.WebUI.Controllers
         {
             try
             {
-                Product p = context.FindById(id);
-                if (p == null)
+                ProductManagerViewModel viewModel = new ProductManagerViewModel();
+                viewModel.Product = context.FindById(id);
+                viewModel.ProductCategories = contextCategory.Collection().ToList(); 
+                if (viewModel.Product == null)
                 {
                     return HttpNotFound();
                 }
                 else
                 {
-                    return View(p);
+                    return View(viewModel);
                 }
             }
             catch (Exception)
@@ -69,13 +76,13 @@ namespace Shop.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product p)
+        public ActionResult Edit(ProductManagerViewModel pvm)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    context.Update(p);
+                    context.Update(pvm.Product);
                     context.Commit();
                     return RedirectToAction("Index");
                 }
@@ -87,7 +94,7 @@ namespace Shop.WebUI.Controllers
             }
             else
             {
-                return View(p.Id);
+                return View(pvm.Product.Id);
             }
 
         }
