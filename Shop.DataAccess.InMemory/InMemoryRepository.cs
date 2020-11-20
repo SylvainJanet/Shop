@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shop.DataAccess.InMemory
 {
-    public class InMemoryRepository<T> where T : BaseEntity
+    public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity
     {
         ObjectCache cache = MemoryCache.Default;
         List<T> items;
@@ -45,12 +45,12 @@ namespace Shop.DataAccess.InMemory
                     {
                         var property = typeof(T).GetProperty(prop.Name);
                         property.SetValue(dbitem, Convert.ChangeType(property.GetValue(item), prop.PropertyType));
-                    } 
+                    }
                 }
             }
             else
             {
-                throw new Exception("Item of class "+className+" not found");
+                throw new Exception("Item of class " + className + " not found");
             }
         }
 

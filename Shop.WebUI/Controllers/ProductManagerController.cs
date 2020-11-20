@@ -11,8 +11,8 @@ namespace Shop.WebUI.Controllers
 {
     public class ProductManagerController : Controller
     {
-        InMemoryRepository<Product> context;
-        InMemoryRepository<ProductCategory> contextCategory;
+        IRepository<Product> context;
+        IRepository<ProductCategory> contextCategory;
 
         public ProductManagerController()
         {

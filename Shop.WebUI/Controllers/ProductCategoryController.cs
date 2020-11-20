@@ -10,7 +10,7 @@ namespace Shop.WebUI.Controllers
 {
     public class ProductCategoryController : Controller
     {
-        InMemoryRepository<ProductCategory> context;
+        IRepository<ProductCategory> context;
 
         public ProductCategoryController()
         {
