@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shop.Core.Models
 {
-    public class ProductCategory : BaseEntity
+    public abstract class BaseEntity
     {
-        public string Category { get; set; }
+        public int Id { get; set; }
     }
 }
