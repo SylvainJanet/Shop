@@ -10,9 +10,9 @@ namespace Shop.DataAccess.InMemory
 {
     public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity
     {
-        ObjectCache cache = MemoryCache.Default;
-        List<T> items;
-        string className;
+        internal ObjectCache cache = MemoryCache.Default;
+        internal List<T> items;
+        internal string className;
 
         public InMemoryRepository()
         {
